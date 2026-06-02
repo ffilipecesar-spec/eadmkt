@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Social Seller Estratégico — Qualificação por AIDA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#06183f;
+  --navy-2:#0a224f;
+  --navy-3:#0e2c66;
+  --ink:#04122e;
+  --blue:#2f6bff;
+  --blue-soft:#6fa0ff;
+  --orange:#ff6a1a;
+  --orange-soft:#ff9a52;
+  --amber:#ffb155;
+  --cream:#f4f1e8;
+  --cream-dim:#c3cad8;
+  --line:rgba(255,255,255,.12);
+  --maxw:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:"IBM Plex Sans",sans-serif;
+  background:var(--ink);
+  color:var(--cream);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- DECK FRAME ---------- */
+.deck{position:fixed;inset:0;}
+.slide{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(28px,5vw,90px);
+  opacity:0;visibility:hidden;
+  transform:scale(.985);
+  transition:opacity .55s ease, transform .55s cubic-bezier(.2,.7,.2,1);
+  background:
+    radial-gradient(120% 90% at 12% 8%, rgba(47,107,255,.22), transparent 55%),
+    radial-gradient(120% 100% at 92% 98%, rgba(255,106,26,.20), transparent 55%),
+    linear-gradient(160deg, var(--navy) 0%, var(--ink) 100%);
+}
+.slide.active{opacity:1;visibility:visible;transform:scale(1);z-index:2;}
+.slide::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+.inner{width:100%;max-width:var(--maxw);position:relative;z-index:3;}
+
+/* reveal */
+.active .rv{opacity:0;transform:translateY(22px);animation:rise .7s forwards cubic-bezier(.2,.7,.2,1)}
+.active .rv:nth-child(1){animation-delay:.10s}
+.active .rv:nth-child(2){animation-delay:.20s}
+.active .rv:nth-child(3){animation-delay:.30s}
+.active .rv:nth-child(4){animation-delay:.40s}
+.active .rv:nth-child(5){animation-delay:.50s}
+.active .rv:nth-child(6){animation-delay:.60s}
+.active .rv:nth-child(7){animation-delay:.70s}
+@keyframes rise{to{opacity:1;transform:translateY(0)}}
+
+/* ---------- TYPOGRAPHY ---------- */
+.kicker{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:clamp(11px,1vw,13px);
+  letter-spacing:.32em;text-transform:uppercase;
+  color:var(--orange);display:flex;align-items:center;gap:14px;margin-bottom:26px;
+}
+.kicker::before{content:"";width:34px;height:2px;background:var(--orange);display:inline-block}
+.kicker.blue{color:var(--blue-soft)}
+.kicker.blue::before{background:var(--blue-soft)}
+
+h1.display{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-weight:800;line-height:.95;letter-spacing:-.02em;
+  font-size:clamp(40px,7.2vw,104px);
+}
+h2.display{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-weight:700;line-height:1.0;letter-spacing:-.02em;
+  font-size:clamp(30px,4.6vw,62px);
+}
+.lead{
+  font-size:clamp(16px,1.6vw,22px);line-height:1.55;color:var(--cream-dim);
+  max-width:780px;font-weight:400;
+}
+.accent{color:var(--orange)}
+.accent-b{color:var(--blue-soft)}
+em{font-style:italic;color:var(--cream)}
+
+/* ---------- COVER ---------- */
+.cover .brandline{
+  font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--cream-dim);display:flex;justify-content:space-between;
+  border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:auto;
+}
+.cover .inner{display:flex;flex-direction:column;height:min(78vh,720px);}
+.cover h1{margin-top:10px}
+.cover .flow{
+  font-family:"IBM Plex Mono",monospace;margin-top:34px;
+  font-size:clamp(12px,1.3vw,16px);letter-spacing:.04em;color:var(--cream-dim);
+}
+.cover .flow b{color:var(--orange);font-weight:600}
+.bigmark{
+  position:absolute;right:-2%;top:-12%;font-family:"Bricolage Grotesque";
+  font-weight:800;font-size:46vw;line-height:1;color:rgba(47,107,255,.06);
+  z-index:1;pointer-events:none;user-select:none;
+}
+
+/* ---------- LIST ---------- */
+.list{display:grid;gap:14px;margin-top:30px;max-width:760px}
+.list .item{
+  display:flex;gap:18px;align-items:flex-start;
+  padding:16px 20px;border:1px solid var(--line);border-radius:14px;
+  background:rgba(255,255,255,.03);
+}
+.list .num{
+  font-family:"IBM Plex Mono",monospace;color:var(--orange);font-weight:600;
+  font-size:14px;padding-top:2px;min-width:24px;
+}
+.list .txt{font-size:clamp(15px,1.45vw,19px);line-height:1.4}
+
+/* ---------- AIDA STEPS ---------- */
+.aida{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
+.aida .step{
+  border:1px solid var(--line);border-radius:16px;padding:26px 22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.01));
+  position:relative;overflow:hidden;
+}
+.aida .step::before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:var(--blue)}
+.aida .step:nth-child(2)::before{background:linear-gradient(90deg,var(--blue),var(--orange))}
+.aida .step:nth-child(3)::before{background:var(--orange)}
+.aida .step:nth-child(4)::before{background:var(--amber)}
+.aida .letter{font-family:"Bricolage Grotesque";font-weight:800;font-size:56px;line-height:1;color:var(--orange)}
+.aida .step:nth-child(1) .letter,.aida .step:nth-child(2) .letter{color:var(--blue-soft)}
+.aida .name{font-family:"IBM Plex Mono";letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--cream-dim);margin:14px 0 8px}
+.aida .desc{font-size:14.5px;line-height:1.45;color:var(--cream)}
+
+/* ---------- TWO COL ---------- */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:34px}
+.panel{border:1px solid var(--line);border-radius:16px;padding:26px 26px;background:rgba(255,255,255,.03)}
+.panel.good{border-color:rgba(47,107,255,.4);background:rgba(47,107,255,.07)}
+.panel.bad{border-color:rgba(255,106,26,.35);background:rgba(255,106,26,.06)}
+.panel h3{font-family:"IBM Plex Mono";font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.panel.good h3{color:var(--blue-soft)}
+.panel.bad h3{color:var(--orange-soft)}
+.panel ul{list-style:none;display:grid;gap:11px}
+.panel li{font-size:15.5px;line-height:1.4;padding-left:26px;position:relative}
+.panel.good li::before{content:"✓";position:absolute;left:0;color:var(--blue-soft);font-weight:700}
+.panel.bad li::before{content:"✕";position:absolute;left:0;color:var(--orange-soft);font-weight:700}
+
+/* ---------- QUOTE SCRIPTS ---------- */
+.scripts{display:grid;gap:14px;margin-top:30px;max-width:840px}
+.script{
+  border-left:3px solid var(--orange);padding:14px 22px;border-radius:0 12px 12px 0;
+  background:rgba(255,255,255,.04);font-size:clamp(15px,1.5vw,19px);line-height:1.45;
+}
+.script.b{border-left-color:var(--blue)}
+.script .tag{display:block;font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--cream-dim);margin-bottom:6px}
+
+/* dialogue */
+.dialogue{display:grid;gap:16px;margin-top:30px;max-width:860px}
+.bubble{padding:18px 22px;border-radius:16px;max-width:74%;line-height:1.45;font-size:16px}
+.bubble .who{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px;opacity:.75}
+.bubble.lead-b{background:rgba(255,255,255,.06);border:1px solid var(--line);justify-self:start;border-bottom-left-radius:4px}
+.bubble.you{background:linear-gradient(135deg,var(--blue),#1d4fd0);justify-self:end;border-bottom-right-radius:4px;color:#fff}
+.bubble.bad-r{background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.2);justify-self:end;border-bottom-right-radius:4px;opacity:.7}
+
+/* 3 levels */
+.levels{display:grid;gap:0;margin-top:34px;max-width:780px;position:relative}
+.level{display:flex;gap:24px;align-items:flex-start;padding:22px 0;border-bottom:1px solid var(--line)}
+.level:last-child{border-bottom:none}
+.level .lv{font-family:"Bricolage Grotesque";font-weight:800;font-size:40px;line-height:1;color:var(--orange);min-width:120px}
+.level:nth-child(1) .lv{color:var(--blue-soft)}
+.level:nth-child(2) .lv{color:var(--orange-soft)}
+.level .lvname{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--cream-dim);display:block;margin-bottom:4px}
+.level .lvtitle{font-size:20px;font-weight:600;margin-bottom:6px}
+.level .lvq{font-size:15px;color:var(--cream-dim);font-style:italic}
+
+/* fit checklist */
+.fitgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:34px;max-width:880px}
+.fit{border:1px solid var(--line);border-radius:14px;padding:22px 24px;background:rgba(255,255,255,.03);display:flex;gap:16px;align-items:center}
+.fit .q{font-family:"Bricolage Grotesque";font-weight:800;color:var(--orange);font-size:32px}
+.fit .ft{font-size:16.5px;line-height:1.35}
+
+/* method principles */
+.method{display:grid;gap:0;margin-top:30px;max-width:820px}
+.method .m{display:flex;align-items:baseline;gap:18px;padding:14px 0;border-bottom:1px solid var(--line);font-size:clamp(17px,1.9vw,24px);font-family:"Bricolage Grotesque";font-weight:600;letter-spacing:-.01em}
+.method .m:last-child{border-bottom:none}
+.method .mn{font-family:"IBM Plex Mono";font-size:13px;color:var(--orange);min-width:34px;font-weight:600}
+
+/* formula */
+.formula{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:36px}
+.formula .chip{font-family:"Bricolage Grotesque";font-weight:700;font-size:clamp(18px,2.4vw,30px);padding:10px 22px;border-radius:50px;border:1px solid var(--line);background:rgba(255,255,255,.04)}
+.formula .chip:nth-child(odd){background:rgba(47,107,255,.12);border-color:rgba(47,107,255,.4)}
+.formula .arrow{color:var(--orange);font-size:24px;font-weight:700}
+
+/* big statement */
+.statement h2{font-size:clamp(34px,5.5vw,76px);font-weight:800;font-family:"Bricolage Grotesque";line-height:1.02;letter-spacing:-.02em;max-width:14ch}
+.statement .sub{margin-top:28px}
+
+/* ---------- NAV / CHROME ---------- */
+.chrome{position:fixed;left:0;right:0;bottom:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px clamp(20px,4vw,48px);pointer-events:none;
+  font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.12em;color:var(--cream-dim);
+}
+.chrome .title{text-transform:uppercase}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--orange));z-index:60;transition:width .4s ease}
+.counter{display:flex;align-items:center;gap:10px}
+.counter b{color:var(--cream);font-weight:600}
+.nav{position:fixed;right:clamp(20px,4vw,48px);bottom:46px;z-index:60;display:flex;gap:10px;pointer-events:auto}
+.nav button{
+  width:46px;height:46px;border-radius:50%;border:1px solid var(--line);
+  background:rgba(255,255,255,.05);color:var(--cream);cursor:pointer;
+  font-size:18px;display:flex;align-items:center;justify-content:center;
+  transition:.2s;backdrop-filter:blur(6px);
+}
+.nav button:hover{background:var(--orange);border-color:var(--orange);color:#fff;transform:translateY(-2px)}
+.dots{position:fixed;left:50%;bottom:48px;transform:translateX(-50%);z-index:60;display:flex;gap:7px;pointer-events:auto}
+.dots .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.22);cursor:pointer;transition:.25s}
+.dots .dot.on{background:var(--orange);width:22px;border-radius:4px}
+.hint{position:fixed;left:clamp(20px,4vw,48px);bottom:46px;z-index:60;color:var(--cream-dim);font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.1em;opacity:.6}
+
+@media(max-width:820px){
+  .aida{grid-template-columns:repeat(2,1fr)}
+  .cols,.fitgrid{grid-template-columns:1fr}
+  .bubble{max-width:90%}
+  .level .lv{min-width:78px;font-size:30px}
+  .dots{display:none}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="bar"></div>
+<div class="deck" id="deck">
+
+<!-- 0 COVER -->
+<section class="slide cover active">
+  <div class="bigmark">AIDA</div>
+  <div class="inner">
+    <div class="brandline rv"><span>EAD MARKETING</span><span>Treinamento Comercial</span></div>
+    <div class="kicker rv">Social Selling · Qualificação Estratégica</div>
+    <h1 class="display rv">O Social Seller<br><span class="accent">Estratégico</span></h1>
+    <p class="lead rv" style="margin-top:22px">Como qualificar pela conversa — fazendo o prospect refletir, não recuar. Um método de descoberta construído sobre <em>AIDA</em>.</p>
+    <div class="flow rv">CONEXÃO <b>→</b> CONTEXTO <b>→</b> DOR <b>→</b> IMPACTO <b>→</b> REFLEXÃO <b>→</b> PRÓXIMO PASSO</div>
+  </div>
+</section>
+
+<!-- 1 O NOVO PAPEL -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">01 · O Novo Papel</div>
+    <h2 class="display rv">O objetivo não é vender.<br>É <span class="accent">compreender</span>.</h2>
+    <p class="lead rv" style="margin-top:24px">O maior erro do Social Seller é apresentar solução antes de entender a realidade do lead. A venda é consequência. A compreensão é o trabalho.</p>
+    <div class="list rv">
+      <div class="item"><span class="num">01</span><span class="txt">Criar conexão genuína antes de qualquer pergunta de negócio</span></div>
+      <div class="item"><span class="num">02</span><span class="txt">Entender o contexto real do prospect — não o que você presume</span></div>
+      <div class="item"><span class="num">03</span><span class="txt">Identificar desafios, causas e oportunidades escondidas</span></div>
+      <div class="item"><span class="num">04</span><span class="txt">Fazer o prospect refletir e chegar às próprias conclusões</span></div>
+      <div class="item"><span class="num">05</span><span class="txt">Gerar confiança e preparar o terreno para a próxima etapa</span></div>
+    </div>
+    <p class="lead rv" style="margin-top:26px;font-weight:500;color:var(--cream)">Quem fala mais perde. <span class="accent">Quem pergunta melhor vende mais.</span></p>
+  </div>
+</section>
+
+<!-- 2 POR QUE QUALIFICAR (aprofundamento) -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker blue rv">02 · Por que qualificar importa</div>
+    <h2 class="display rv">Qualificar é proteger<br>a energia do time.</h2>
+    <p class="lead rv" style="margin-top:24px">Cada lead mal qualificado custa caro: tempo do closer, reuniões que não fecham, follow-ups sem fim. A qualificação não é burocracia — é <span class="accent-b">economia de força comercial</span>.</p>
+    <div class="cols rv">
+      <div class="panel good">
+        <h3>O que uma boa qualificação entrega</h3>
+        <ul>
+          <li>Reuniões com prospects que realmente têm dor e prioridade</li>
+          <li>Show rate mais alto — quem reflete, comparece</li>
+          <li>Closer recebe contexto, não apenas um nome</li>
+          <li>Ciclo de venda mais curto e previsível</li>
+        </ul>
+      </div>
+      <div class="panel bad">
+        <h3>O custo de pular essa etapa</h3>
+        <ul>
+          <li>Pipeline inflado com leads que nunca avançam</li>
+          <li>"Leads frios" reclamados pelo closer</li>
+          <li>Pitch genérico que não toca a dor certa</li>
+          <li>Time desmotivado por agenda cheia e zero fechamento</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 ESTRUTURA AIDA -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">03 · A Estrutura</div>
+    <h2 class="display rv">Qualificação ancorada em <span class="accent">AIDA</span></h2>
+    <p class="lead rv" style="margin-top:18px">Não é um roteiro rígido. É a curva natural de uma boa conversa: abre, explora, aprofunda, convida.</p>
+    <div class="aida rv">
+      <div class="step"><div class="letter">A</div><div class="name">Atenção</div><div class="desc">Criar conexão e gerar abertura genuína.</div></div>
+      <div class="step"><div class="letter">I</div><div class="name">Interesse</div><div class="desc">Explorar a realidade e o processo atual.</div></div>
+      <div class="step"><div class="letter">D</div><div class="name">Desejo</div><div class="desc">Aprofundar dores, causas e impactos.</div></div>
+      <div class="step"><div class="letter">A</div><div class="name">Ação</div><div class="desc">Validar o interesse no próximo passo.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 FASE 1 ATENÇÃO -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker blue rv">Fase 1 — Atenção</div>
+    <h2 class="display rv">Conexão sem parecer<br>uma entrevista.</h2>
+    <p class="lead rv" style="margin-top:22px">O objetivo inicial não é coletar informação. É criar conforto. As pessoas se abrem para quem demonstra interesse genuíno.</p>
+    <div class="scripts rv">
+      <div class="script b"><span class="tag">Abertura leve</span>"Vi que você atua na área imobiliária — há quanto tempo está nesse mercado?"</div>
+      <div class="script b"><span class="tag">História</span>"Como você começou nesse segmento?"</div>
+      <div class="script b"><span class="tag">Estrutura</span>"Hoje você trabalha sozinho ou já tem equipe?"</div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 FAZER vs EVITAR -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Fase 1 — Postura</div>
+    <h2 class="display rv">O tom decide<br>a abertura.</h2>
+    <div class="cols rv">
+      <div class="panel good">
+        <h3>O que fazer</h3>
+        <ul>
+          <li>Demonstrar curiosidade genuína</li>
+          <li>Fazer perguntas leves, espaçadas</li>
+          <li>Escutar mais do que falar</li>
+          <li>Encontrar pontos em comum</li>
+        </ul>
+      </div>
+      <div class="panel bad">
+        <h3>O que evitar</h3>
+        <ul>
+          <li>Roteiro robótico, decorado</li>
+          <li>Perguntas sequenciais demais (interrogatório)</li>
+          <li>Pressa para vender</li>
+          <li>Falar da solução antes da hora</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 TÉCNICAS DE CONEXÃO -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker blue rv">Fase 1 — Técnica</div>
+    <h2 class="display rv">Três portas de entrada</h2>
+    <p class="lead rv" style="margin-top:18px">Antes de aprofundar, conheça o lead por três ângulos. Quando o prospect fala sobre si, a resistência cai.</p>
+    <div class="aida rv" style="grid-template-columns:repeat(3,1fr)">
+      <div class="step"><div class="name" style="color:var(--orange)">História</div><div class="desc">Como começou? O que motivou essa escolha de carreira ou negócio?</div></div>
+      <div class="step"><div class="name" style="color:var(--orange)">Momento Atual</div><div class="desc">Como está o negócio hoje? O que está acontecendo agora?</div></div>
+      <div class="step"><div class="name" style="color:var(--orange)">Objetivos</div><div class="desc">O que busca fazer crescer? Quais metas tem para os próximos meses?</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 FASE 2 INTERESSE -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Fase 2 — Interesse</div>
+    <h2 class="display rv">Entendendo a<br>realidade atual.</h2>
+    <p class="lead rv" style="margin-top:22px">Agora começa a investigação — mas como conversa, nunca como interrogatório. Você está mapeando o terreno.</p>
+    <div class="scripts rv">
+      <div class="script"><span class="tag">Captação</span>"Como vocês costumam captar clientes hoje?"</div>
+      <div class="script"><span class="tag">Canal</span>"Qual canal traz mais resultado atualmente?"</div>
+      <div class="script"><span class="tag">Processo</span>"Como funciona o processo comercial de vocês?"</div>
+      <div class="script"><span class="tag">Ferramentas</span>"Vocês usam CRM ou algum controle? Quem participa das vendas?"</div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 O QUE MAPEAR -->
+<section class="slide statement">
+  <div class="inner">
+    <div class="kicker blue rv">Fase 2 — Objetivo</div>
+    <h2 class="rv">Você está mapeando <span class="accent">cinco coisas</span>.</h2>
+    <div class="aida rv" style="grid-template-columns:repeat(5,1fr);margin-top:46px">
+      <div class="step"><div class="name" style="color:var(--blue-soft)">Estrutura</div><div class="desc">Tamanho, time, organização.</div></div>
+      <div class="step"><div class="name" style="color:var(--blue-soft)">Processo</div><div class="desc">Como a venda acontece hoje.</div></div>
+      <div class="step"><div class="name" style="color:var(--blue-soft)">Equipe</div><div class="desc">Quem faz o quê.</div></div>
+      <div class="step"><div class="name" style="color:var(--blue-soft)">Ferramentas</div><div class="desc">O que usam para controlar.</div></div>
+      <div class="step"><div class="name" style="color:var(--blue-soft)">Resultados</div><div class="desc">O que isso gera de fato.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 APROFUNDAMENTO -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Fase 2 — Técnica do Aprofundamento</div>
+    <h2 class="display rv">Não mude de assunto.<br><span class="accent">Aprofunde.</span></h2>
+    <p class="lead rv" style="margin-top:20px">Quando o lead responde, o Social Seller comum diz "entendi" e segue. O estratégico puxa o fio.</p>
+    <div class="dialogue rv">
+      <div class="bubble lead-b"><span class="who">Lead</span>"Hoje conseguimos clientes principalmente pelo Instagram."</div>
+      <div class="bubble bad-r"><span class="who">Social Seller comum</span>"Entendi."</div>
+      <div class="bubble you"><span class="who">Social Seller estratégico</span>"Interessante. E o que você acredita que faz esse canal funcionar tão bem para vocês?"</div>
+    </div>
+    <p class="lead rv" style="margin-top:24px;font-weight:500;color:var(--cream)">Use sempre: <span class="accent">O quê? · Como? · Por quê?</span> — são as perguntas que revelam o que importa.</p>
+  </div>
+</section>
+
+<!-- 10 FASE 3 DESEJO -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Fase 3 — Desejo</div>
+    <h2 class="display rv">Descobrindo a dor<br>sem perguntar a dor.</h2>
+    <p class="lead rv" style="margin-top:20px">"Qual é a sua dor?" é a pergunta que ninguém gosta de ouvir. Troque por perguntas que geram respostas honestas.</p>
+    <div class="scripts rv">
+      <div class="script"><span class="tag">Desafio</span>"Hoje, qual é o maior desafio que vocês enfrentam nessa área?"</div>
+      <div class="script"><span class="tag">Tempo</span>"O que mais toma o seu tempo atualmente?"</div>
+      <div class="script"><span class="tag">Prioridade</span>"Se pudesse resolver só uma coisa no negócio hoje, o que seria?"</div>
+      <div class="script"><span class="tag">Bloqueio</span>"O que impede vocês de crescer mais rápido?"</div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 APROFUNDANDO A DOR -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Fase 3 — Aprofundando a Dor</div>
+    <h2 class="display rv">Quando a dor aparece,<br><span class="accent">continue.</span></h2>
+    <div class="dialogue rv">
+      <div class="bubble lead-b"><span class="who">Lead</span>"Temos dificuldade em converter os contatos."</div>
+    </div>
+    <p class="lead rv" style="margin-top:8px">Não pare aí. Pergunte:</p>
+    <div class="scripts rv">
+      <div class="script b">"Como isso impacta os resultados da empresa?"</div>
+      <div class="script b">"Há quanto tempo isso acontece?"</div>
+      <div class="script b">"Já tentaram resolver de alguma forma?"</div>
+      <div class="script b">"Quanto isso afeta o faturamento? E se continuar assim nos próximos meses?"</div>
+    </div>
+    <p class="lead rv" style="margin-top:22px;color:var(--cream)">Aqui acontece a <span class="accent">verdadeira qualificação</span>.</p>
+  </div>
+</section>
+
+<!-- 12 REGRA DOS 3 NÍVEIS -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker blue rv">Fase 3 — A Regra dos 3 Níveis</div>
+    <h2 class="display rv">Nunca pare na<br>primeira resposta.</h2>
+    <div class="levels rv">
+      <div class="level"><div class="lv">01</div><div><span class="lvname">O Problema</span><div class="lvtitle">"Temos poucos clientes."</div><div class="lvq">É o sintoma visível — onde quase todo mundo para.</div></div></div>
+      <div class="level"><div class="lv">02</div><div><span class="lvname">A Causa</span><div class="lvtitle">"Não temos processo comercial."</div><div class="lvq">É o que realmente gera o problema.</div></div></div>
+      <div class="level"><div class="lv">03</div><div><span class="lvname">O Impacto</span><div class="lvtitle">"Perdemos oportunidades todo dia."</div><div class="lvq">O impacto gera urgência. A urgência gera movimento.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 FAZER REFLETIR -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Fase 3 — Reflexão</div>
+    <h2 class="display rv">O melhor Social Seller<br>não convence. Ele faz<br><span class="accent">refletir.</span></h2>
+    <p class="lead rv" style="margin-top:20px">Quando o prospect chega sozinho à conclusão, o valor da mudança passa a ser dele — não seu.</p>
+    <div class="scripts rv">
+      <div class="script">"Você acredita que essa situação está limitando o crescimento?"</div>
+      <div class="script">"Quanto essa ineficiência custa por mês?"</div>
+      <div class="script">"Como seria o seu cenário ideal?"</div>
+      <div class="script">"Se isso estivesse resolvido, qual seria a diferença?"</div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 QUANTIFICAR (aprofundamento) -->
+<section class="slide statement">
+  <div class="inner">
+    <div class="kicker blue rv">Aprofundamento — Custo da inação</div>
+    <h2 class="rv">Dor sem número<br>é só desabafo.</h2>
+    <p class="lead sub rv">Transforme a dor em consequência mensurável. Quando o lead coloca um valor — em reais, horas ou clientes perdidos — a decisão deixa de ser opcional.</p>
+    <div class="formula rv" style="margin-top:40px">
+      <span class="chip">Dor</span><span class="arrow">→</span>
+      <span class="chip">Frequência</span><span class="arrow">→</span>
+      <span class="chip">Custo mensal</span><span class="arrow">→</span>
+      <span class="chip">Projeção 12 meses</span>
+    </div>
+    <p class="lead rv" style="margin-top:30px;color:var(--cream)">"Se cada lead perdido vale ~R$ X e isso acontece Y vezes por semana… quanto fica no fim do ano?"</p>
+  </div>
+</section>
+
+<!-- 15 FIT -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Validação — Identificando Fit</div>
+    <h2 class="display rv">Qualificar também é<br><span class="accent">desqualificar.</span></h2>
+    <p class="lead rv" style="margin-top:18px">Nem todo lead deve avançar. Antes da ponte, valide quatro condições:</p>
+    <div class="fitgrid rv">
+      <div class="fit"><span class="q">?</span><span class="ft">Existe <b>problema</b> real e reconhecido?</span></div>
+      <div class="fit"><span class="q">?</span><span class="ft">É uma <b>prioridade</b> agora — ou "algum dia"?</span></div>
+      <div class="fit"><span class="q">?</span><span class="ft">Existe <b>desejo</b> genuíno de resolver?</span></div>
+      <div class="fit"><span class="q">?</span><span class="ft">Existe <b>capacidade</b> de agir (decisão + recurso)?</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 FASE 4 AÇÃO -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Fase 4 — Ação</div>
+    <h2 class="display rv">Não apresente solução.<br>Crie uma <span class="accent">ponte.</span></h2>
+    <p class="lead rv" style="margin-top:20px">Depois de compreender o cenário, você não entrega um pitch — você convida para continuar a conversa.</p>
+    <div class="scripts rv">
+      <div class="script b"><span class="tag">Síntese</span>"Pelo que você compartilhou, percebo alguns pontos que podem estar impactando seus resultados."</div>
+      <div class="script b"><span class="tag">Convite</span>"Faz sentido aprofundarmos isso numa conversa estratégica, para entender melhor e identificar oportunidades?"</div>
+    </div>
+    <p class="lead rv" style="margin-top:26px;color:var(--cream)">Sem pressão. <span class="accent">Sem pitch. Sem insistência.</span></p>
+  </div>
+</section>
+
+<!-- 17 OBJEÇÕES (aprofundamento) -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker blue rv">Aprofundamento — Transição</div>
+    <h2 class="display rv">Hesitação não é "não".<br>É <span class="accent-b">pedido de clareza.</span></h2>
+    <div class="cols rv">
+      <div class="panel bad">
+        <h3>O lead diz</h3>
+        <ul>
+          <li>"Preciso pensar."</li>
+          <li>"Manda por escrito que eu vejo."</li>
+          <li>"Agora não é o momento."</li>
+        </ul>
+      </div>
+      <div class="panel good">
+        <h3>Você devolve com pergunta</h3>
+        <ul>
+          <li>"Claro — o que especificamente você quer avaliar melhor?"</li>
+          <li>"Combinado. Só pra eu mandar o mais útil: o que pesa mais pra você hoje?"</li>
+          <li>"Entendo. O que precisaria acontecer pra virar prioridade?"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 18 MÉTODO IDEAL -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Síntese — O Método Ideal</div>
+    <h2 class="display rv">Seis princípios.</h2>
+    <div class="method rv">
+      <div class="m"><span class="mn">01</span>Conecte antes de qualificar.</div>
+      <div class="m"><span class="mn">02</span>Entenda antes de diagnosticar.</div>
+      <div class="m"><span class="mn">03</span>Diagnostique antes de apresentar.</div>
+      <div class="m"><span class="mn">04</span>Pergunte antes de argumentar.</div>
+      <div class="m"><span class="mn">05</span>Escute mais do que fala.</div>
+      <div class="m"><span class="mn">06</span>Gere reflexão antes de oferecer solução.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 19 RESUMO + FÓRMULA -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker blue rv">Resumo Prático</div>
+    <h2 class="display rv">A conversa inteira,<br>em uma linha.</h2>
+    <div class="aida rv" style="margin-top:34px">
+      <div class="step"><div class="letter">A</div><div class="name">Atenção</div><div class="desc">Criar conexão.</div></div>
+      <div class="step"><div class="letter">I</div><div class="name">Interesse</div><div class="desc">Entender o contexto.</div></div>
+      <div class="step"><div class="letter">D</div><div class="name">Desejo</div><div class="desc">Explorar dor, impacto e oportunidade.</div></div>
+      <div class="step"><div class="letter">A</div><div class="name">Ação</div><div class="desc">Convidar para o próximo passo.</div></div>
+    </div>
+    <div class="formula rv" style="margin-top:38px">
+      <span class="chip">Conexão</span><span class="arrow">→</span>
+      <span class="chip">Contexto</span><span class="arrow">→</span>
+      <span class="chip">Dor</span><span class="arrow">→</span>
+      <span class="chip">Impacto</span><span class="arrow">→</span>
+      <span class="chip">Reflexão</span><span class="arrow">→</span>
+      <span class="chip">Próximo Passo</span>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- CHROME -->
+<div class="chrome">
+  <span class="title">O Social Seller Estratégico</span>
+  <span class="counter"><b id="cur">01</b> / <span id="tot">20</span></span>
+</div>
+<div class="hint">← → para navegar</div>
+<div class="dots" id="dots"></div>
+<div class="nav">
+  <button id="prev" aria-label="Anterior">←</button>
+  <button id="next" aria-label="Próximo">→</button>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;const tot=slides.length;
+document.getElementById('tot').textContent=String(tot).padStart(2,'0');
+const dots=document.getElementById('dots');
+slides.forEach((_,k)=>{const d=document.createElement('div');d.className='dot'+(k===0?' on':'');d.onclick=()=>go(k);dots.appendChild(d);});
+const dotEls=[...dots.children];
+function go(n){
+  n=Math.max(0,Math.min(tot-1,n));
+  slides[i].classList.remove('active');dotEls[i].classList.remove('on');
+  i=n;
+  slides[i].classList.add('active');dotEls[i].classList.add('on');
+  document.getElementById('cur').textContent=String(i+1).padStart(2,'0');
+  document.getElementById('bar').style.width=((i+1)/tot*100)+'%';
+}
+document.getElementById('next').onclick=()=>go(i+1);
+document.getElementById('prev').onclick=()=>go(i-1);
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(i+1);}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(i-1);}
+  if(e.key==='Home')go(0);if(e.key==='End')go(tot-1);
+});
+let sx=0;
+document.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)go(dx<0?i+1:i-1);},{passive:true});
+document.getElementById('bar').style.width=(1/tot*100)+'%';
+</script>
+</body>
+</html>
