@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No-Show &amp; Reagendamento — Conteúdo SDR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#06183f;--navy-2:#0a224f;--navy-3:#0e2c66;--ink:#04122e;
+  --blue:#2f6bff;--blue-soft:#6fa0ff;--orange:#ff6a1a;--orange-soft:#ff9a52;--amber:#ffb155;
+  --cream:#f4f1e8;--cream-dim:#c3cad8;--line:rgba(255,255,255,.12);--maxw:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:"IBM Plex Sans",sans-serif;background:var(--ink);color:var(--cream);overflow:hidden;-webkit-font-smoothing:antialiased}
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  padding:clamp(28px,5vw,90px);opacity:0;visibility:hidden;transform:scale(.985);
+  transition:opacity .55s ease, transform .55s cubic-bezier(.2,.7,.2,1);
+  background:radial-gradient(120% 90% at 12% 8%, rgba(47,107,255,.22), transparent 55%),
+    radial-gradient(120% 100% at 92% 98%, rgba(255,106,26,.20), transparent 55%),
+    linear-gradient(160deg, var(--navy) 0%, var(--ink) 100%);}
+.slide.active{opacity:1;visibility:visible;transform:scale(1);z-index:2}
+.slide::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay}
+.inner{width:100%;max-width:var(--maxw);position:relative;z-index:3}
+.active .rv{opacity:0;transform:translateY(22px);animation:rise .7s forwards cubic-bezier(.2,.7,.2,1)}
+.active .rv:nth-child(1){animation-delay:.10s}.active .rv:nth-child(2){animation-delay:.20s}
+.active .rv:nth-child(3){animation-delay:.30s}.active .rv:nth-child(4){animation-delay:.40s}
+.active .rv:nth-child(5){animation-delay:.50s}.active .rv:nth-child(6){animation-delay:.60s}
+.active .rv:nth-child(7){animation-delay:.70s}
+@keyframes rise{to{opacity:1;transform:translateY(0)}}
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:clamp(11px,1vw,13px);letter-spacing:.32em;
+  text-transform:uppercase;color:var(--orange);display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.kicker::before{content:"";width:34px;height:2px;background:var(--orange);display:inline-block}
+.kicker.blue{color:var(--blue-soft)}.kicker.blue::before{background:var(--blue-soft)}
+h1.display{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;line-height:.95;letter-spacing:-.02em;font-size:clamp(40px,7.2vw,104px)}
+h2.display{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;line-height:1.0;letter-spacing:-.02em;font-size:clamp(30px,4.6vw,62px)}
+.lead{font-size:clamp(16px,1.6vw,22px);line-height:1.55;color:var(--cream-dim);max-width:820px;font-weight:400}
+.accent{color:var(--orange)}.accent-b{color:var(--blue-soft)}em{font-style:italic;color:var(--cream)}
+.cover .brandline{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--cream-dim);display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:auto}
+.cover .inner{display:flex;flex-direction:column;height:min(78vh,720px)}
+.cover h1{margin-top:10px}
+.cover .flow{font-family:"IBM Plex Mono",monospace;margin-top:34px;font-size:clamp(12px,1.3vw,16px);letter-spacing:.04em;color:var(--cream-dim)}
+.cover .flow b{color:var(--orange);font-weight:600}
+.bigmark{position:absolute;right:-2%;top:-10%;font-family:"Bricolage Grotesque";font-weight:800;font-size:42vw;line-height:1;color:rgba(47,107,255,.06);z-index:1;pointer-events:none;user-select:none}
+.list{display:grid;gap:14px;margin-top:30px;max-width:820px}
+.list .item{display:flex;gap:18px;align-items:flex-start;padding:16px 20px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03)}
+.list .num{font-family:"IBM Plex Mono",monospace;color:var(--orange);font-weight:600;font-size:14px;padding-top:2px;min-width:24px}
+.list .txt{font-size:clamp(15px,1.45vw,19px);line-height:1.4}
+.aida{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
+.aida .step{border:1px solid var(--line);border-radius:16px;padding:24px 22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.01));position:relative;overflow:hidden}
+.aida .step::before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:var(--blue)}
+.aida .step:nth-child(2)::before{background:linear-gradient(90deg,var(--blue),var(--orange))}
+.aida .step:nth-child(3)::before{background:var(--orange)}
+.aida .step:nth-child(4)::before{background:var(--amber)}
+.aida .letter{font-family:"Bricolage Grotesque";font-weight:800;font-size:50px;line-height:1;color:var(--orange)}
+.aida .name{font-family:"IBM Plex Mono";letter-spacing:.16em;text-transform:uppercase;font-size:12px;color:var(--orange);margin:0 0 10px}
+.aida .desc{font-size:14.5px;line-height:1.45;color:var(--cream)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:32px}
+.panel{border:1px solid var(--line);border-radius:16px;padding:26px;background:rgba(255,255,255,.03)}
+.panel.good{border-color:rgba(47,107,255,.4);background:rgba(47,107,255,.07)}
+.panel.bad{border-color:rgba(255,106,26,.35);background:rgba(255,106,26,.06)}
+.panel h3{font-family:"IBM Plex Mono";font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+.panel.good h3{color:var(--blue-soft)}.panel.bad h3{color:var(--orange-soft)}
+.panel p.pl{font-size:15px;line-height:1.5;color:var(--cream-dim)}
+.panel ul{list-style:none;display:grid;gap:11px}
+.panel li{font-size:15.5px;line-height:1.4;padding-left:26px;position:relative}
+.panel.good li::before{content:"✓";position:absolute;left:0;color:var(--blue-soft);font-weight:700}
+.panel.bad li::before{content:"✕";position:absolute;left:0;color:var(--orange-soft);font-weight:700}
+.scripts{display:grid;gap:13px;margin-top:28px;max-width:880px}
+.script{border-left:3px solid var(--orange);padding:14px 22px;border-radius:0 12px 12px 0;background:rgba(255,255,255,.04);font-size:clamp(14.5px,1.45vw,18px);line-height:1.45}
+.script.b{border-left-color:var(--blue)}
+.script .tag{display:block;font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--cream-dim);margin-bottom:6px}
+.note{margin-top:22px;font-size:clamp(15px,1.45vw,18px);color:var(--cream);max-width:820px;line-height:1.5}
+.levels{display:grid;margin-top:28px;max-width:880px}
+.level{display:flex;gap:24px;align-items:flex-start;padding:18px 0;border-bottom:1px solid var(--line)}
+.level:last-child{border-bottom:none}
+.level .lv{font-family:"Bricolage Grotesque";font-weight:800;font-size:34px;line-height:1;color:var(--orange);min-width:118px}
+.level:nth-child(1) .lv{color:var(--blue-soft)}.level:nth-child(2) .lv{color:var(--orange-soft)}
+.level .lvname{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cream-dim);display:block;margin-bottom:5px}
+.level .lvtitle{font-size:18px;font-weight:600;margin-bottom:5px}
+.level .lvq{font-size:14.5px;color:var(--cream-dim)}
+.causes{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:34px}
+.cause{border:1px solid var(--line);border-radius:14px;padding:18px 16px;background:rgba(255,255,255,.03);position:relative}
+.cause::before{content:"";position:absolute;left:0;top:0;height:100%;width:3px;background:var(--orange);border-radius:3px 0 0 3px}
+.cause:nth-child(1)::before{background:var(--blue-soft)}.cause:nth-child(2)::before{background:var(--orange)}
+.cause:nth-child(3)::before{background:var(--orange-soft)}.cause:nth-child(4)::before{background:var(--amber)}
+.cause .ctag{font-family:"IBM Plex Mono";font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:8px}
+.cause .ctitle{font-weight:600;font-size:15px;line-height:1.2;margin-bottom:10px;font-family:"Bricolage Grotesque"}
+.cause .lbl{font-family:"IBM Plex Mono";font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-dim);display:block;margin-top:8px}
+.cause .val{font-size:12.5px;line-height:1.35;color:var(--cream)}
+.formula{display:flex;flex-wrap:wrap;align-items:center;gap:13px;margin-top:34px}
+.formula .chip{font-family:"Bricolage Grotesque";font-weight:700;font-size:clamp(16px,2.2vw,28px);padding:10px 22px;border-radius:50px;border:1px solid var(--line);background:rgba(255,255,255,.04)}
+.formula .chip:nth-child(odd){background:rgba(47,107,255,.12);border-color:rgba(47,107,255,.4)}
+.formula .arrow{color:var(--orange);font-size:22px;font-weight:700}
+.statement h2{font-size:clamp(34px,5.5vw,76px);font-weight:800;font-family:"Bricolage Grotesque";line-height:1.02;letter-spacing:-.02em;max-width:15ch}
+.statement .sub{margin-top:26px}
+.chrome{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:18px clamp(20px,4vw,48px);pointer-events:none;font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.12em;color:var(--cream-dim)}
+.chrome .title{text-transform:uppercase}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--orange));z-index:60;transition:width .4s ease}
+.counter b{color:var(--cream);font-weight:600}
+.nav{position:fixed;right:clamp(20px,4vw,48px);bottom:46px;z-index:60;display:flex;gap:10px;pointer-events:auto}
+.nav button{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--cream);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:.2s;backdrop-filter:blur(6px)}
+.nav button:hover{background:var(--orange);border-color:var(--orange);color:#fff;transform:translateY(-2px)}
+.dots{position:fixed;left:50%;bottom:48px;transform:translateX(-50%);z-index:60;display:flex;gap:7px;pointer-events:auto}
+.dots .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.22);cursor:pointer;transition:.25s}
+.dots .dot.on{background:var(--orange);width:22px;border-radius:4px}
+.hint{position:fixed;left:clamp(20px,4vw,48px);bottom:46px;z-index:60;color:var(--cream-dim);font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.1em;opacity:.6}
+@media(max-width:860px){
+  .aida{grid-template-columns:repeat(2,1fr)}.cols{grid-template-columns:1fr}
+  .causes{grid-template-columns:repeat(2,1fr)}.bubble{max-width:92%}
+  .level .lv{min-width:70px;font-size:26px}.dots{display:none}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="bar"></div>
+<div class="deck" id="deck">
+
+<!-- 0 COVER -->
+<section class="slide cover active">
+  <div class="bigmark" style="color:rgba(255,106,26,.07)">N·S</div>
+  <div class="inner">
+    <div class="brandline rv"><span>EAD MARKETING</span><span>Treinamento SDR · Módulo 2</span></div>
+    <div class="kicker rv">No-Show · Reagendamento · Show Rate</div>
+    <h1 class="display rv">No-Show &amp;<br><span class="accent">Reagendamento</span></h1>
+    <p class="lead rv" style="margin-top:22px">Como blindar a presença do lead — prevenir a falta antes dela acontecer e recuperar quando acontece.</p>
+    <div class="flow rv">DIAGNOSTICAR <b>→</b> PREVENIR <b>→</b> RECUPERAR <b>→</b> MEDIR</div>
+  </div>
+</section>
+
+<!-- 1 ENQUADRAMENTO -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">01 · O Enquadramento</div>
+    <h2 class="display rv">O objetivo não é treinar SDR.<br>É <span class="accent">blindar a presença</span>.</h2>
+    <p class="lead rv" style="margin-top:22px">No-show raramente é o lead ser "ruim". É a reunião não ter ficado valiosa e concreta na hora de marcar — e o vão entre "marcou" e "acontece" ficar sem ponte.</p>
+    <div class="list rv">
+      <div class="item"><span class="num">01</span><span class="txt">O gargalo quase sempre vive nas camadas finais: valorização, agendamento, alinhamento e follow-up</span></div>
+      <div class="item"><span class="num">02</span><span class="txt">A SDR não vende o programa nem fecha — ela constrói <em>predisposição</em> e protege a presença</span></div>
+      <div class="item"><span class="num">03</span><span class="txt">Lembrar mais não resolve. Resolve-se valorizando melhor e comprometendo antes</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 INSTRUMENTO 5 CAUSAS -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker blue rv">02 · Diagnóstico</div>
+    <h2 class="display rv">No-show não é um fenômeno.<br>São <span class="accent">cinco</span>.</h2>
+    <p class="lead rv" style="margin-top:14px">Cada causa vive numa camada e exige um conserto diferente. Atacar a camada errada não move a métrica.</p>
+    <div class="causes rv">
+      <div class="cause"><span class="ctag">Camada · Alinhamento</span><div class="ctitle">Esqueceu</div><span class="lbl">Sinal</span><div class="val">Responde surpreso: "passou batido".</div><span class="lbl">Conserto</span><div class="val">Ponte + lembrete com novo valor.</div></div>
+      <div class="cause"><span class="ctag">Camada · Valorização</span><div class="ctitle">Sem valor percebido</div><span class="lbl">Sinal</span><div class="val">Marcou fácil demais. "Tá bom" morno.</div><span class="lbl">Conserto</span><div class="val">Reposicionar a reunião como diagnóstico raro.</div></div>
+      <div class="cause"><span class="ctag">Abertura + Valor</span><div class="ctitle">Frio nos pés</div><span class="lbl">Sinal</span><div class="val">Some na véspera. "Depois te falo."</div><span class="lbl">Conserto</span><div class="val">Não soar vendedora; "sai com clareza".</div></div>
+      <div class="cause"><span class="ctag">Camada · Qualificação</span><div class="ctitle">Nunca esteve pronto</div><span class="lbl">Sinal</span><div class="val">Sem dor, desejo ou decisão — só curiosidade.</div><span class="lbl">Conserto</span><div class="val">Não deveria ter sido marcada.</div></div>
+      <div class="cause"><span class="ctag">Camada · Agendamento</span><div class="ctitle">Decisor ausente</div><span class="lbl">Sinal</span><div class="val">"Ele não pôde" — sócio/cônjuge fora.</div><span class="lbl">Conserto</span><div class="val">Marcar com o decisor presente.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 VALORIZE -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Prevenção — Valorização (Camada 8)</div>
+    <h2 class="display rv">Valorize a reunião,<br>não o <span class="accent">produto</span>.</h2>
+    <p class="lead rv" style="margin-top:18px">O lead não falta a um diagnóstico raro e útil pra ele. Falta a uma "apresentação".</p>
+    <div class="scripts rv">
+      <div class="script b"><span class="tag">Diagnóstico</span>"O objetivo dos 40 minutos é eu entender teu cenário e te dar uma leitura de onde está teu maior ponto de alavancagem. Não é apresentação de nada."</div>
+      <div class="script b"><span class="tag">Saída garantida</span>"Independente de a gente trabalhar junto ou não, você sai da conversa com clareza de onde tá teu gargalo. Esse é o combinado."</div>
+      <div class="script b"><span class="tag">Raridade</span>"Não é uma call padrão — eu olho teu caso antes. Por isso preciso de um horário em que você consiga estar presente de verdade."</div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 MARQUE PROTEGENDO -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Prevenção — Agendamento (Camada 9)</div>
+    <h2 class="display rv">Marque blindando<br>a presença</h2>
+    <div class="cols rv">
+      <div class="panel good">
+        <h3>Quatro micro-ações ao marcar</h3>
+        <ul>
+          <li>Reafirme o que vai acontecer ("o que a gente faz nesse tempo é…")</li>
+          <li>Diga a duração com clareza</li>
+          <li>Peça ambiente focado — sem dirigindo, sem outra call empilhada</li>
+          <li>Arranque o micro-compromisso verbal: "posso contar contigo?"</li>
+        </ul>
+      </div>
+      <div class="panel bad">
+        <h3>Não aceite o "tá bom" morno</h3>
+        <p class="pl">"Te pergunto isso porque eu vou bloquear esse tempo só pra você e preparar tua leitura antes. Então, de verdade — esse horário funciona ou a gente acha um melhor?"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 PONTE -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Prevenção — Alinhamento (Camada 10)</div>
+    <h2 class="display rv">A ponte entre<br>"marcou" e "acontece"</h2>
+    <p class="lead rv" style="margin-top:18px">Áudio curto ou texto, no dia anterior:</p>
+    <div class="scripts rv">
+      <div class="script b">"Oi [nome], tô preparando tua leitura pra amanhã. Pra eu deixar mais útil: hoje o que mais te incomoda é <em>atrair</em> lead ou <em>converter</em> o que já chega? Me responde aqui que eu já chego com isso mapeado."</div>
+    </div>
+    <p class="note rv">Faz três coisas: reduz o vão entre marcar e acontecer, reconfirma valor sem cobrar, e <span class="accent">alimenta o handoff pro closer</span> — a resposta vai no briefing.</p>
+  </div>
+</section>
+
+<!-- 6 FOLLOW-UP -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Prevenção — Follow-up (Camada 11)</div>
+    <h2 class="display rv">Cadência calibrada<br>pela <span class="accent">janela</span></h2>
+    <div class="aida rv" style="grid-template-columns:repeat(3,1fr)">
+      <div class="step"><div class="name">24–48h</div><div class="desc"><b>1 toque.</b> Só a ponte de alinhamento. Mais que isso vira cobrança.</div></div>
+      <div class="step"><div class="name">2–4 dias</div><div class="desc"><b>2 toques.</b> (1) Insight relevante ao caso. (2) Véspera: alinhamento + horário.</div></div>
+      <div class="step"><div class="name">5–7+ dias</div><div class="desc"><b>3 toques.</b> Insight → pergunta de preparação → véspera: alinhamento + horário.</div></div>
+    </div>
+    <p class="note rv">Cada toque carrega valor novo. <span class="accent">Nunca</span> "só confirmando se tá de pé".</p>
+  </div>
+</section>
+
+<!-- 7 REAGENDAMENTO -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker blue rv">Recuperação — Reagendamento</div>
+    <h2 class="display rv">Reagendar sem<br>perder o lead</h2>
+    <p class="lead rv" style="margin-top:16px">Reagende na mesma conversa, com horário específico — nunca "me avisa quando puder".</p>
+    <div class="scripts rv">
+      <div class="script"><span class="tag">"Manda por escrito que eu vejo"</span>Pedido de clareza, não rejeição: "Mando sim. Só pra mandar o mais útil — o que pesa mais pra você decidir?"</div>
+      <div class="script"><span class="tag">"Agora não é o momento"</span>"Entendo. O que precisaria acontecer pra isso virar prioridade?"</div>
+      <div class="script"><span class="tag">Serial rescheduler</span>Limite em duas remarcações. Na terceira, honestidade: "Já remarcamos duas vezes — talvez não seja o momento agora. Prefere que eu te procure mais pra frente?"</div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 ÁRVORE PÓS NO-SHOW -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Recuperação — Pós No-Show</div>
+    <h2 class="display rv">O que fazer<br>depois da falta</h2>
+    <div class="levels rv">
+      <div class="level"><div class="lv">0–30min</div><div><span class="lvname">Toque imediato · tom de cuidado</span><div class="lvtitle">"Tô aqui no horário combinado. Imagino que surgiu algo — acontece. Quer que eu segure outro horário ainda hoje?"</div><div class="lvq">Respondeu → remarque na hora, com âncora de valor + horário específico.</div></div></div>
+      <div class="level"><div class="lv">D+1</div><div><span class="lvname">Reenquadramento de valor (não repetição)</span><div class="lvtitle">"Pensei no que você comentou sobre [dor]. Faz sentido retomar aquela leitura? Tenho [horário] e [horário]."</div></div></div>
+      <div class="level"><div class="lv">D+3</div><div><span class="lvname">Último toque · porta aberta</span><div class="lvtitle">"Vou parar de te lembrar pra não encher. A porta fica aberta — quando fizer sentido, me chama."</div><div class="lvq">Sem resposta → volta pro fluxo de nutrição. Sai do pipeline ativo, não infla a métrica.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 ROLE-PLAY -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker blue rv">Treino — Role-Play</div>
+    <h2 class="display rv">Cartas pra treinar na hora</h2>
+    <div class="list rv">
+      <div class="item"><span class="num">01</span><span class="txt">Lead morno que marcou fácil demais — reposicionar valor e arrancar compromisso real</span></div>
+      <div class="item"><span class="num">02</span><span class="txt">Lead engajado que sumiu na véspera — o toque de alinhamento que recupera</span></div>
+      <div class="item"><span class="num">03</span><span class="txt">"Manda por escrito" — treinar a devolução com pergunta</span></div>
+      <div class="item"><span class="num">04</span><span class="txt">Faltou e respondeu "desculpa, esqueci" — remarcar na hora com âncora, sem soar submissa</span></div>
+      <div class="item"><span class="num">05</span><span class="txt">Decisor não está na hora da call — confirmar o decisor já no agendamento</span></div>
+    </div>
+    <p class="note rv">Cada SDR responde na hora; o grupo critica contra os critérios: reposicionou valor? arrancou compromisso? manteve o papel de SDR sem partir pro fechamento?</p>
+  </div>
+</section>
+
+<!-- 10 ARQUÉTIPOS -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker rv">Autoconsciência</div>
+    <h2 class="display rv">Qual vício é o <span class="accent">seu</span>?</h2>
+    <div class="aida rv" style="grid-template-columns:repeat(2,1fr)">
+      <div class="step"><div class="name">A agendadora</div><div class="desc">Marca tudo, qualifica nada. Show rate parece ok, mas o closer reclama de lead frio.</div></div>
+      <div class="step"><div class="name">A interrogadora</div><div class="desc">Roda checklist sem conexão. O lead preenche o "formulário", mas não engaja.</div></div>
+      <div class="step"><div class="name">A fechadora</div><div class="desc">Tenta vender o programa na pré-venda. O lead sente o cheiro e recua.</div></div>
+      <div class="step"><div class="name">O handoff fantasma</div><div class="desc">Faz tudo bem, mas nada chega no closer. O ganho se perde entre marcar e a reunião.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 MEDIR -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker blue rv">Medição</div>
+    <h2 class="display rv">Leia o sinal,<br>conserte a camada certa</h2>
+    <div class="formula rv">
+      <span class="chip">Agendamento</span><span class="arrow">→</span>
+      <span class="chip">Show rate</span><span class="arrow">→</span>
+      <span class="chip">Recuperação</span><span class="arrow">→</span>
+      <span class="chip">Qualidade da reunião</span>
+    </div>
+    <p class="note rv">Se a show rate sobe mas a qualidade não, o problema migrou pra <span class="accent">qualificação ou handoff</span> — não pro lembrete. Conserte onde o sinal aponta.</p>
+  </div>
+</section>
+
+<!-- 12 FECHAMENTO -->
+<section class="slide statement">
+  <div class="bigmark" style="color:rgba(255,106,26,.06)">✓</div>
+  <div class="inner">
+    <div class="kicker rv">A síntese</div>
+    <h2 class="rv">No-show não se resolve<br>lembrando mais.</h2>
+    <p class="lead sub rv">Resolve-se <span class="accent">valorizando melhor</span> e <span class="accent-b">comprometendo antes</span>.</p>
+    <div class="formula rv" style="margin-top:34px">
+      <span class="chip">Diagnosticar</span><span class="arrow">→</span>
+      <span class="chip">Prevenir</span><span class="arrow">→</span>
+      <span class="chip">Recuperar</span><span class="arrow">→</span>
+      <span class="chip">Medir</span>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="chrome">
+  <span class="title">No-Show &amp; Reagendamento · SDR</span>
+  <span class="counter"><b id="cur">01</b> / <span id="tot">13</span></span>
+</div>
+<div class="hint">← → para navegar</div>
+<div class="dots" id="dots"></div>
+<div class="nav">
+  <button id="prev" aria-label="Anterior">←</button>
+  <button id="next" aria-label="Próximo">→</button>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;const tot=slides.length;
+document.getElementById('tot').textContent=String(tot).padStart(2,'0');
+const dots=document.getElementById('dots');
+slides.forEach((_,k)=>{const d=document.createElement('div');d.className='dot'+(k===0?' on':'');d.onclick=()=>go(k);dots.appendChild(d);});
+const dotEls=[...dots.children];
+function go(n){n=Math.max(0,Math.min(tot-1,n));slides[i].classList.remove('active');dotEls[i].classList.remove('on');i=n;slides[i].classList.add('active');dotEls[i].classList.add('on');document.getElementById('cur').textContent=String(i+1).padStart(2,'0');document.getElementById('bar').style.width=((i+1)/tot*100)+'%';}
+document.getElementById('next').onclick=()=>go(i+1);
+document.getElementById('prev').onclick=()=>go(i-1);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(i+1);}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(i-1);}if(e.key==='Home')go(0);if(e.key==='End')go(tot-1);});
+let sx=0;document.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)go(dx<0?i+1:i-1);},{passive:true});
+document.getElementById('bar').style.width=(1/tot*100)+'%';
+</script>
+</body>
+</html>
